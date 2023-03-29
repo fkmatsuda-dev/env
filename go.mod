@@ -1,3 +1,3 @@
-module github.com/fkmatsuda-dev/env
+module git.fkmatsuda.dev/fkmatsuda.dev/env
 
 go 1.20
