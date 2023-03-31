@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"git.fkmatsuda.dev/fkmatsuda.dev/env"
+	"github.com/fkmatsuda-dev/env"
 )
 
 func TestInt(t *testing.T) {
