@@ -16,7 +16,7 @@ The env project is a library written in Go that provides functions to read value
 You can install the env library using the following command:
 
 ```bash
-go get github.com/yourusername/env
+go get github.com/fkmatsuda-dev/env
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ To use the env library, import the relevant function for the type of environment
 
 ```go
 import (
-    "github.com/yourusername/env"
+    "github.com/fkmatsuda-dev/env"
 )
 
 // Reading an integer environment variable
@@ -46,4 +46,4 @@ If the environment variable cannot be read, the function will return the default
 This project is licensed under the MIT License. See the LICENSE file for more information.
 
 ## Contributing
-If you would like to contribute to the env library, please submit a pull request on the GitHub repository.
+If you would like to contribute to the env library, feel free to send a pull request or create an issue on GitHub. Your feedback is very important for us to improve the project together.
