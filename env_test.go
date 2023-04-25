@@ -1,5 +1,5 @@
 /*
- * © $year $author
+ * © 2023 fkmatsuda
  *
  * This file is licensed under the terms of the MIT license. Permission is hereby
  * granted, free of charge, to any person obtaining a copy of this software and
@@ -36,14 +36,17 @@ func TestInt(t *testing.T) {
 		value := 42
 		t.Setenv("MY_VAR", strconv.Itoa(value))
 
-		result := env.Int("MY_VAR", 0)
+		result, err := env.Int("MY_VAR", 0)
+		if err != nil {
+			t.Fatal(err)
+		}
 		if result != value {
 			t.Errorf("Int() returned %v, expected %v", result, value)
 		}
 	})
 
 	t.Run("when the environment variable is not set", func(t *testing.T) {
-		value := 0
+		value := 42
 		save := os.Getenv("MY_VAR")
 		err := os.Unsetenv("MY_VAR")
 		if err != nil {
@@ -56,7 +59,7 @@ func TestInt(t *testing.T) {
 			}
 		}()
 
-		result := env.Int("MY_VAR", value)
+		result, err := env.Int("MY_VAR", value)
 		if result != value {
 			t.Errorf("Int() returned %v, expected %v", result, value)
 		}
@@ -66,9 +69,12 @@ func TestInt(t *testing.T) {
 		defaultValue := 42
 		t.Setenv("MY_VAR", "not an integer")
 
-		result := env.Int("MY_VAR", defaultValue)
+		result, err := env.Int("MY_VAR", defaultValue)
 		if result != defaultValue {
 			t.Errorf("Int() returned %v, expected %v", result, defaultValue)
+		}
+		if err == nil {
+			t.Errorf("Int() returned no error, expected error")
 		}
 	})
 }
@@ -78,14 +84,17 @@ func TestFloat64(t *testing.T) {
 		value := 3.14
 		t.Setenv("MY_VAR", strconv.FormatFloat(value, 'f', -1, 64))
 
-		result := env.Float64("MY_VAR", 0)
+		result, err := env.Float64("MY_VAR", 0)
+		if err != nil {
+			t.Fatal(err)
+		}
 		if result != value {
 			t.Errorf("Float64() returned %v, expected %v", result, value)
 		}
 	})
 
 	t.Run("when the environment variable is not set", func(t *testing.T) {
-		value := 0.0
+		value := 3.14
 		save := os.Getenv("MY_VAR")
 		err := os.Unsetenv("MY_VAR")
 		if err != nil {
@@ -98,7 +107,10 @@ func TestFloat64(t *testing.T) {
 			}
 		}()
 
-		result := env.Float64("MY_VAR", value)
+		result, err := env.Float64("MY_VAR", value)
+		if err != nil {
+			t.Fatal(err)
+		}
 		if result != value {
 			t.Errorf("Float64() returned %v, expected %v", result, value)
 		}
@@ -108,7 +120,10 @@ func TestFloat64(t *testing.T) {
 		defaultValue := 3.14
 		t.Setenv("MY_VAR", "not a float")
 
-		result := env.Float64("MY_VAR", defaultValue)
+		result, err := env.Float64("MY_VAR", defaultValue)
+		if err == nil {
+			t.Errorf("Float64() returned no error, expected error")
+		}
 		if result != defaultValue {
 			t.Errorf("Float64() returned %v, expected %v", result, defaultValue)
 		}
@@ -120,7 +135,10 @@ func TestDuration(t *testing.T) {
 		value, _ := time.ParseDuration("1h30m")
 		t.Setenv("MY_VAR", value.String())
 
-		result := env.Duration("MY_VAR", 0)
+		result, err := env.Duration("MY_VAR", 0)
+		if err != nil {
+			t.Fatal(err)
+		}
 		if result != value {
 			t.Errorf("Duration() returned %v, expected %v", result, value)
 		}
@@ -140,7 +158,7 @@ func TestDuration(t *testing.T) {
 			}
 		}()
 
-		result := env.Duration("MY_VAR", value)
+		result, err := env.Duration("MY_VAR", value)
 		if result != value {
 			t.Errorf("Duration() returned %v, expected %v", result, value)
 		}
@@ -150,7 +168,10 @@ func TestDuration(t *testing.T) {
 		defaultValue, _ := time.ParseDuration("1h30m")
 		t.Setenv("MY_VAR", "not a duration")
 
-		result := env.Duration("MY_VAR", defaultValue)
+		result, err := env.Duration("MY_VAR", defaultValue)
+		if err == nil {
+			t.Errorf("Duration() returned no error, expected error")
+		}
 		if result != defaultValue {
 			t.Errorf("Duration() returned %v, expected %v", result, defaultValue)
 		}
