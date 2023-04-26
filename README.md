@@ -6,11 +6,15 @@ The env project is a library written in Go that provides functions to read value
 * Float64
 * String
 
-## All functions have two parameters:
+### This functions have two parameters:
 
 * The first parameter is the name of the environment variable to be read.
 * The second parameter is the default value to be returned if the variable cannot be read.
+
+### return
 * The return type of the function will match the type of the default value provided.
+
+Functions Int, Duration and Float64 will return an error if a conversion error occurs.
 
 ## Installation
 You can install the env library using the following command:
@@ -28,19 +32,76 @@ import (
 )
 
 // Reading an integer environment variable
-myInt := env.ReadInt("MY_INT_VAR", 10)
+myInt, err := env.Int("MY_INT_VAR", 10)
+if err != nil {
+// handle error
+}
 
 // Reading a duration environment variable
-myDuration := env.ReadDuration("MY_DURATION_VAR", time.Second * 60)
+myDuration, err := env.Duration("MY_DURATION_VAR", time.Second * 60)
+if err != nil {
+// handle error
+}
 
 // Reading a float environment variable
-myFloat := env.ReadFloat64("MY_FLOAT_VAR", 3.14)
+myFloat, err := env.Float64("MY_FLOAT_VAR", 3.14)
+if err != nil {
+// handle error
+}
 
 // Reading a string environment variable
-myString := env.ReadString("MY_STRING_VAR", "default_value")
+myString := env.String("MY_STRING_VAR", "default_value")
 ```
 
 If the environment variable cannot be read, the function will return the default value provided.
+
+## Adicional functions
+There are alternative versions of these functions without a default value but with an additional Boolean return to tell whether or not the variable can be read.
+
+* ChkInt
+* ChkDuration
+* ChkFloat64
+* ChkString
+
+```go
+import (
+    "github.com/fkmatsuda-dev/env"
+)
+
+// Reading an integer environment variable
+myInt, ok, err := env.ChkInt("MY_INT_VAR")
+if err != nil {
+// handle error
+}
+if !ok {
+// handle missing environment variable
+}
+
+// Reading a duration environment variable
+myDuration, ok, err := env.ChkDuration("MY_DURATION_VAR")
+if err != nil {
+// handle error
+}
+if !ok {
+// handle missing environment variable
+}
+
+// Reading a float environment variable
+myFloat, ok, err := env.ChkFloat64("MY_FLOAT_VAR")
+if err != nil {
+// handle error
+}
+if !ok {
+// handle missing environment variable
+}
+
+// Reading a string environment variable
+myString, ok := env.ChkString("MY_STRING_VAR")
+if !ok {
+// handle missing environment variable
+}
+```
+
 
 ## License
 This project is licensed under the MIT License. See the LICENSE file for more information.
