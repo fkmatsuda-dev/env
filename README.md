@@ -16,6 +16,17 @@ The env project is a library written in Go that provides functions to read value
 
 Functions Int, Duration and Float64 will return an error if a conversion error occurs.
 
+Duration variables can be specified in the following formats:
+* 1h
+* 1h30m
+* 1m
+* 1s
+* 1ms
+* 1us
+* 1ns
+
+The above values are just examples, you need to adjust the values as per your need.
+
 ## Installation
 You can install the env library using the following command:
 
